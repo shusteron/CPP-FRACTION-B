@@ -43,7 +43,7 @@ class Fraction{
         friend bool operator>(float number, const Fraction& other);
 //------------------------------ OPERATOR > -------------------------------
         bool operator>(const Fraction& other);
-        bool operator<(float number);
+        bool operator>(float number);
         friend bool operator>(float number, const Fraction& other);
 //------------------------------ OPERATOR <= -------------------------------
         bool operator<=(const Fraction& other);

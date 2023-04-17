@@ -89,29 +89,56 @@ Fraction Fraction::operator++(){
 bool Fraction::operator<(const Fraction &other){
     return true;
 }
-
+bool Fraction::operator<(float number){
+    return true;
+}
+// bool Fraction::operator<(float number, const Fraction& other){
+//     return true;
+// }
 
 //------------------------------ OPERATOR > -------------------------------
 bool Fraction::operator>(const Fraction &other){
     return true;
 }
-
+bool Fraction::operator>(float number){
+    return true;
+}
+// bool Fraction::operator>(float number, const Fraction& other){
+//     return true;
+// }
 
 //------------------------------ OPERATOR <= -------------------------------
 bool Fraction::operator<=(const Fraction &other){
     return true;
 }
-
+bool Fraction::operator<=(float number){
+    return true;
+}
+// bool Fraction::operator<=(float number, const Fraction& other){
+//     return true;
+// }
 
 //------------------------------ OPERATOR >= -------------------------------
 bool Fraction::operator>=(const Fraction &other){
     return true;
 }
+bool Fraction::operator>=(float number){
+    return true;
+}
+// bool Fraction::operator>=(float number, const Fraction& other){
+//     return true;
+// }
 
 //------------------------------ OPERATOR == -------------------------------
 bool Fraction::operator==(const Fraction &other){
     return true;
 }
+bool Fraction::operator==(float number){
+    return true;
+}
+// bool Fraction::operator==(float number, const Fraction& other){
+//     return true;
+// }
 
 //------------------------------ OPERATOR << -------------------------------
 ostream& operator<< (ostream& output, const Fraction& f){
