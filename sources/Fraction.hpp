@@ -18,19 +18,27 @@ class Fraction{
 //------------------------------ OPERATOR + -------------------------------
         Fraction operator+(const Fraction& other);
         Fraction operator+(float number);
-        friend Fraction operator+(float number, const Fraction& other);
+        friend Fraction operator+(float number, const Fraction& other){
+                return Fraction();
+        }
 //------------------------------ OPERATOR "-" -------------------------------
         Fraction operator-(const Fraction& other);
         Fraction operator-(float number);
-        friend Fraction operator-(float number, const Fraction& other);
+        friend Fraction operator-(float number, const Fraction& other){
+                return Fraction();
+        }
 //------------------------------ OPERATOR * -------------------------------
         Fraction operator*(const Fraction& other);
         Fraction operator*(float number);
-        friend Fraction operator*(float number, const Fraction& other);
+        friend Fraction operator*(float number, const Fraction& other){
+                return Fraction();
+        }
 //------------------------------ OPERATOR / -------------------------------
         Fraction operator/(const Fraction& other);
         Fraction operator/(float number);
-        friend Fraction operator/(float number, const Fraction& other);
+        friend Fraction operator/(float number, const Fraction& other){
+                return Fraction();
+        }
 //------------------------------ OPERATOR "--" -------------------------------
         Fraction operator--(int);
         Fraction operator--();
@@ -40,23 +48,33 @@ class Fraction{
 //------------------------------ OPERATOR < -------------------------------
         bool operator<(const Fraction& other);
         bool operator<(float number);
-        friend bool operator>(float number, const Fraction& other);
+        friend bool operator<(float number, const Fraction& other){
+                return false;
+        }
 //------------------------------ OPERATOR > -------------------------------
         bool operator>(const Fraction& other);
         bool operator>(float number);
-        friend bool operator>(float number, const Fraction& other);
+        friend bool operator>(float number, const Fraction& other){
+                return false;
+        }
 //------------------------------ OPERATOR <= -------------------------------
         bool operator<=(const Fraction& other);
         bool operator<=(float number);
-        friend bool operator<=(float number, const Fraction& other);
+        friend bool operator<=(float number, const Fraction& other){
+                return false;
+        }
 //------------------------------ OPERATOR >= -------------------------------
         bool operator>=(const Fraction& other);
         bool operator>=(float number);
-        friend bool operator>=(float number, const Fraction& other);
+        friend bool operator>=(float number, const Fraction& other){
+                return false;
+        }
 //------------------------------ OPERATOR == -------------------------------
         bool operator==(const Fraction& other);
         bool operator==(float number);
-        friend bool operator==(float number, const Fraction& other);
+        friend bool operator==(float number, const Fraction& other){
+                return false;
+        }
 //------------------------------ OPERATOR << -------------------------------
         friend ostream& operator<< (ostream& output, const Fraction& c);
 //------------------------------ GETTERS -------------------------------

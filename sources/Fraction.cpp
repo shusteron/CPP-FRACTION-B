@@ -23,20 +23,11 @@ Fraction Fraction::operator+(float number){
     return Fraction();
 }
 
-Fraction operator+(float number, const Fraction& other){
-    return Fraction();
-}
-
 //------------------------------ OPERATOR "-" -------------------------------
 Fraction Fraction::operator-(const Fraction &other){
     return Fraction();
 }
 Fraction Fraction::operator-(float number){
-    return Fraction();
-}
-
-Fraction operator-(float number, const Fraction &other)
-{
     return Fraction();
 }
 
@@ -49,20 +40,12 @@ Fraction Fraction::operator*(float number){
     return Fraction();
 }
 
-Fraction operator*(float number,const Fraction &other){
-    return Fraction();
-}
-
 //------------------------------ OPERATOR / -------------------------------
 
 Fraction Fraction::operator/(const Fraction &other){
     return Fraction();
 }
 Fraction Fraction::operator/(float number){
-    return Fraction();
-}
-
-Fraction operator/(float number,const Fraction &other){
     return Fraction();
 }
 
@@ -82,66 +65,66 @@ Fraction Fraction::operator++(int){
 }
 //Pretfix increcment.
 Fraction Fraction::operator++(){
+    this->numerator+=this->denominator;
     return Fraction();
+    //return *this;
 }
 
 //------------------------------ OPERATOR < -------------------------------
 bool Fraction::operator<(const Fraction &other){
-    return true;
+    return false;
 }
 bool Fraction::operator<(float number){
-    return true;
+    return false;
 }
-// bool Fraction::operator<(float number, const Fraction& other){
-//     return true;
-// }
+
 
 //------------------------------ OPERATOR > -------------------------------
 bool Fraction::operator>(const Fraction &other){
-    return true;
+    return false;
 }
 bool Fraction::operator>(float number){
-    return true;
+    return false;
 }
-// bool Fraction::operator>(float number, const Fraction& other){
-//     return true;
-// }
+
 
 //------------------------------ OPERATOR <= -------------------------------
 bool Fraction::operator<=(const Fraction &other){
-    return true;
+    return false;
 }
 bool Fraction::operator<=(float number){
-    return true;
+    return false;
 }
-// bool Fraction::operator<=(float number, const Fraction& other){
-//     return true;
-// }
+
 
 //------------------------------ OPERATOR >= -------------------------------
 bool Fraction::operator>=(const Fraction &other){
-    return true;
+    return false;
 }
 bool Fraction::operator>=(float number){
-    return true;
+    return false;
 }
-// bool Fraction::operator>=(float number, const Fraction& other){
-//     return true;
-// }
+
 
 //------------------------------ OPERATOR == -------------------------------
 bool Fraction::operator==(const Fraction &other){
-    return true;
+    return ((this->numerator == other.numerator)&& (this->denominator == other.denominator));
 }
 bool Fraction::operator==(float number){
-    return true;
+    return false;
 }
-// bool Fraction::operator==(float number, const Fraction& other){
-//     return true;
-// }
+
 
 //------------------------------ OPERATOR << -------------------------------
 ostream& operator<< (ostream& output, const Fraction& f){
     return (output << f.numerator << '/' << f.denominator);
 }
+//------------------------------ GETTERS -----------------------------------
+int Fraction::getNum(){
+    return this->numerator;
+}
+int Fraction::getDenom(){
+    return this->denominator;
+}
+
 
