@@ -102,11 +102,12 @@ TEST_CASE(">= operator"){
 }
 
 TEST_CASE("== operator"){
-    Fraction a(2,3), b(1,4), c(2,3);
+    Fraction a(2,3), b(1,4), c(2,3), d(4,6), e(3,12);
 
-
+    CHECK(a==d);
     CHECK(a==c);
     CHECK((b==a)==false);
+    CHECK(e==0.25);
     CHECK((0.25==b)==true);
     CHECK((b==0.75)==false);
 }
