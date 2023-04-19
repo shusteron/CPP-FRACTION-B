@@ -107,7 +107,7 @@ bool Fraction::operator>=(float number){
 
 
 //------------------------------ OPERATOR == -------------------------------
-bool Fraction::operator==(const Fraction &other){
+bool Fraction::operator==(const Fraction &other) const{
     return ((this->numerator == other.numerator)&& (this->denominator == other.denominator));
 }
 bool Fraction::operator==(float number){

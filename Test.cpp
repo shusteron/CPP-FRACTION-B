@@ -13,20 +13,26 @@ TEST_CASE("zero in both num and denom"){
     CHECK_THROWS(Fraction(0,0));
 }
 
+TEST_CASE("divided with zero"){
+    Fraction a(1,2);
+
+    CHECK_THROWS(a/0.0);
+}
+
 TEST_CASE("+ operator"){
     Fraction a(1,2), b(2,4), x(3,2), y(5,2);
 
-    CHECK((a+b)==1);
-    CHECK((1+a)==x);
-    CHECK((x+1)==y);
+    CHECK((a+b)==1.0);
+    CHECK((1.0+a)==x);
+    CHECK((x+1.0)==y);
 }
 
 TEST_CASE("- operator"){
     Fraction a(1,2), b(2,4),c(5,3), x(0,1), y(2,3);
    
-    CHECK((a-b)==0);
-    CHECK((1-a)==x);
-    CHECK((c-1)==y);
+    CHECK((a-b)==0.0);
+    CHECK((1.0-a)==x);
+    CHECK((c-1.0)==y);
 }
 
 TEST_CASE("* operator"){
@@ -35,16 +41,16 @@ TEST_CASE("* operator"){
 
     CHECK((a*c)==x);
     CHECK((0.0*a)==y);
-    CHECK((a*2)==b);
+    CHECK((a*2.0)==b);
 }
 
 TEST_CASE("/ operator"){
     Fraction a(1,2), b(2,4),c(5,3),
     x(3,2), y(5,9);
 
-    CHECK((b/a)==1);
+    CHECK((b/a)==1.0);
     CHECK((2.5/c)==x);
-    CHECK((c/3)==y);
+    CHECK((c/3.0)==y);
 }
 
 TEST_CASE("++ operator"){
@@ -58,17 +64,51 @@ TEST_CASE("-- operator"){
     Fraction a(3,1), b(2,1);
 
     CHECK(--a == b);
-    CHECK(a++ == 3);
+    CHECK(a++ == 3.0);
 }
 
-TEST_CASE("< operator"){}
+TEST_CASE("< operator"){
+    Fraction a(3,1), b(2,1);
 
-TEST_CASE("> operator"){}
+    CHECK((a<b)==false);
+    CHECK((a<1.0)==false);
+    CHECK((2.0<a)==true);
+}
 
-TEST_CASE("<= operator"){}
+TEST_CASE("> operator"){
+    Fraction a(2,3), b(1,3);
 
-TEST_CASE(">= operator"){}
+    CHECK((a>b)==true);
+    CHECK((a>1.0)==false);
+    CHECK((2.0>a)==true);
+}
 
-TEST_CASE("== operator"){}
+TEST_CASE("<= operator"){
+    Fraction a(2,3), b(1,4), c(2,3);
+
+    CHECK((a<=c)==true);
+    CHECK((a<=1.0)==true);
+    CHECK((2.0<=a)==false);
+    CHECK((0.25<=b)==true);
+}
+
+TEST_CASE(">= operator"){
+    Fraction a(2,3), b(1,4), c(2,3);
+
+    CHECK((a>=c)==true);
+    CHECK((a>=1.0)==false);
+    CHECK((2.1>=a)==true);
+    CHECK((0.25>=b)==true);
+}
+
+TEST_CASE("== operator"){
+    Fraction a(2,3), b(1,4), c(2,3);
+
+
+    CHECK(a==c);
+    CHECK((b==a)==false);
+    CHECK((0.25==b)==true);
+    CHECK((b==0.75)==false);
+}
 
 

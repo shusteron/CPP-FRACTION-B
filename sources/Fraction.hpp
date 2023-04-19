@@ -70,7 +70,7 @@ class Fraction{
                 return false;
         }
 //------------------------------ OPERATOR == -------------------------------
-        bool operator==(const Fraction& other);
+        bool operator==(const Fraction&) const;
         bool operator==(float number);
         friend bool operator==(float number, const Fraction& other){
                 return false;
