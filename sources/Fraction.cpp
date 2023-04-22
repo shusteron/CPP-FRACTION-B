@@ -1,52 +1,107 @@
 #include "Fraction.hpp"
 #include <ostream>
+#include <iostream>
+
 
 
 namespace ariel{}
 using namespace std;
 
 Fraction::Fraction(){
-    this->numerator=1;
+    this->numerator=0;
     this->denominator=1;
 }
 
 Fraction::Fraction(int numerator, int denominator){
+    if(denominator==0){
+        throw invalid_argument("Denominator can not be zero.");
+    }
     this->numerator=numerator;
     this->denominator=denominator;
 }
 //------------------------------ PRIVATE METHODS --------------------------
 int Fraction::gcd(int a, int b){
-     while (b != 0) {
-        int temp = b;
-        b = a % b;
-        a = temp;
+    a=abs(a);
+    b=abs(b);
+    if((a>=b)&&((a%b)==0)){
+        return b;
+    }else{
+        return gcd(b,(a%b));
     }
-    return a;
 }
 
-void Fraction::reduse(Fraction& f){
-    int devide = this->gcd(f.getNum(), f.getDenom());
-
+void Fraction::reduce(){
+    int divide = this->gcd(this->getNum(), this->getDenom());
+    if(divide>1){
+        this->setNum(this->getNum()/divide);
+        this->setDenom(this->getDenom()/divide);
+    }
 }
 
-//------------------------------ OPERATOR + -------------------------------
+Fraction Fraction::convert(float &number){
+    if(number==0.0){
+        Fraction result(0,1);
+        return result;
+    }
+    int numerator = number*1000;
+    int denominator=1000;
+    Fraction result(numerator,denominator);
+    result.reduce();
+    return result;
+}
+
+//------------------------------ OPERATOR + ----------------------------------
 Fraction Fraction::operator+(const Fraction &other){
-    return Fraction();
+    int num = this->getNum()*other.getDenom() + this->getDenom()*other.getNum();
+    int denom = this->getDenom() * other.getDenom();
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
 }
 
 Fraction Fraction::operator+(float number){
-    return Fraction();
+    Fraction other= this->convert(number);
+
+    int num = this->getNum()*other.getDenom() + this->getDenom()*other.getNum();
+    int denom = this->getDenom() * other.getDenom();
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
+    
 }
 Fraction operator+(float number, const Fraction& other){
-    return Fraction();
+    // Convert the float number to fraction obgect.
+    int numerator = number*1000;
+    int denominator=1000;
+    Fraction conv(numerator,denominator);
+    conv.reduce();
+
+    // Claculate.
+    int num = conv.getNum()*other.getDenom() + conv.getDenom()*other.getNum();
+    int denom = conv.getDenom() * other.getDenom();
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
 }
 
 //------------------------------ OPERATOR "-" -------------------------------
 Fraction Fraction::operator-(const Fraction &other){
-    return Fraction();
+    int num = this->getNum()*other.getDenom() - this->getDenom()*other.getNum();
+    int denom = this->getDenom() * other.getDenom();
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
 }
+//  Fraction - float.
 Fraction Fraction::operator-(float number){
-    return Fraction();
+    Fraction other= this->convert(number);
+    cout << other << endl;
+
+    int num = this->getNum()*other.getDenom() - this->getDenom()*other.getNum();
+    int denom = this->getDenom() * other.getDenom();
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
 }
 Fraction operator-(float number, const Fraction& other){
     return Fraction();
@@ -87,14 +142,15 @@ Fraction Fraction::operator--(){
 //------------------------------ OPERATOR ++ -------------------------------
 //Postfix increcment.
 Fraction Fraction::operator++(int){
+    Fraction copy = *this;
     this->numerator+=this->denominator;
-    return *this;
+    return copy;
+    
 }
 //Pretfix increcment.
 Fraction Fraction::operator++(){
     this->numerator+=this->denominator;
-    return Fraction();
-    //return *this;
+    return *this;
 }
 
 //------------------------------ OPERATOR < -------------------------------
@@ -160,12 +216,18 @@ bool operator==(float number, const Fraction& other){
 ostream& operator<< (ostream& output, const Fraction& f){
     return (output << f.numerator << '/' << f.denominator);
 }
-//------------------------------ GETTERS -----------------------------------
-int Fraction::getNum(){
+//------------------------------ GETTERS & SETTERS -----------------------------------
+int Fraction::getNum()const{
     return this->numerator;
 }
-int Fraction::getDenom(){
+int Fraction::getDenom()const{
     return this->denominator;
+}
+void Fraction::setNum(int num){
+    this->numerator = num;
+}
+void Fraction::setDenom(int denom){
+    this->denominator=denom;
 }
 
 

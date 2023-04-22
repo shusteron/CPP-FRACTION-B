@@ -12,7 +12,8 @@ class Fraction{
         int numerator;
         int denominator;
         int gcd(int, int);
-        void reduse(Fraction&);
+        void reduce();
+        Fraction convert(float &number);
 
     public:
         Fraction();
@@ -61,9 +62,11 @@ class Fraction{
         friend bool operator==(float number, const Fraction& other);
 //------------------------------ OPERATOR << -------------------------------
         friend ostream& operator<< (ostream& output, const Fraction& c);
-//------------------------------ GETTERS -------------------------------
-        int getNum();
-        int getDenom();
+//------------------------------ GETTERS & SETTERS -------------------------------
+        int getNum()const;
+        int getDenom()const;
+        void setNum(int num);
+        void setDenom(int denom);
 
 };
 #endif
