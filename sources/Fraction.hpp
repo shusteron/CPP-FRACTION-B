@@ -11,7 +11,7 @@ class Fraction{
     private:
         int numerator;
         int denominator;
-        int gcd(int, int);
+        int gcd(int, int)const;
         void reduce();
         Fraction convert(float &number);
 
@@ -36,10 +36,10 @@ class Fraction{
         friend Fraction operator/(float number, const Fraction& other);
 //------------------------------ OPERATOR "--" -------------------------------
         Fraction operator--(int);
-        Fraction operator--();
+        Fraction& operator--();
 //------------------------------ OPERATOR ++ -------------------------------
         Fraction operator++(int);
-        Fraction operator++();
+        Fraction& operator++();
 //------------------------------ OPERATOR < -------------------------------
         bool operator<(const Fraction& other);
         bool operator<(float number);
@@ -57,7 +57,7 @@ class Fraction{
         bool operator>=(float number);
         friend bool operator>=(float number, const Fraction& other);
 //------------------------------ OPERATOR == -------------------------------
-        bool operator==(const Fraction&) const;
+        bool operator==(const Fraction&)const;
         bool operator==(float number);
         friend bool operator==(float number, const Fraction& other);
 //------------------------------ OPERATOR << -------------------------------

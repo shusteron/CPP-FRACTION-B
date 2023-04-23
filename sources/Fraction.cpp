@@ -2,8 +2,6 @@
 #include <ostream>
 #include <iostream>
 
-
-
 namespace ariel{}
 using namespace std;
 
@@ -20,7 +18,7 @@ Fraction::Fraction(int numerator, int denominator){
     this->denominator=denominator;
 }
 //------------------------------ PRIVATE METHODS --------------------------
-int Fraction::gcd(int a, int b){
+int Fraction::gcd(int a, int b)const{
     a=abs(a);
     b=abs(b);
     if((a>=b)&&((a%b)==0)){
@@ -31,6 +29,10 @@ int Fraction::gcd(int a, int b){
 }
 
 void Fraction::reduce(){
+    if(this->getNum()==0){
+        this->setNum(0);
+        this->setDenom(1);
+    }
     int divide = this->gcd(this->getNum(), this->getDenom());
     if(divide>1){
         this->setNum(this->getNum()/divide);
@@ -51,6 +53,8 @@ Fraction Fraction::convert(float &number){
 }
 
 //------------------------------ OPERATOR + ----------------------------------
+
+// Fraction + fraction.
 Fraction Fraction::operator+(const Fraction &other){
     int num = this->getNum()*other.getDenom() + this->getDenom()*other.getNum();
     int denom = this->getDenom() * other.getDenom();
@@ -59,6 +63,7 @@ Fraction Fraction::operator+(const Fraction &other){
     return result;
 }
 
+// Fraction + float.
 Fraction Fraction::operator+(float number){
     Fraction other= this->convert(number);
 
@@ -69,12 +74,18 @@ Fraction Fraction::operator+(float number){
     return result;
     
 }
+
+// Float + Fraction.
 Fraction operator+(float number, const Fraction& other){
     // Convert the float number to fraction obgect.
-    int numerator = number*1000;
-    int denominator=1000;
-    Fraction conv(numerator,denominator);
-    conv.reduce();
+    Fraction conv(0,1);
+    if(number != 0.0){
+        int numerator = number*1000;
+        int denominator=1000;
+        conv.setNum(numerator);
+        conv.setDenom(denominator);
+        conv.reduce();
+    }
 
     // Claculate.
     int num = conv.getNum()*other.getDenom() + conv.getDenom()*other.getNum();
@@ -85,9 +96,15 @@ Fraction operator+(float number, const Fraction& other){
 }
 
 //------------------------------ OPERATOR "-" -------------------------------
+
+// Fraction - fraction.
 Fraction Fraction::operator-(const Fraction &other){
     int num = this->getNum()*other.getDenom() - this->getDenom()*other.getNum();
     int denom = this->getDenom() * other.getDenom();
+    if(denom==0){
+        Fraction result(0,1);
+        return result;
+    }
     Fraction result(num,denom);
     result.reduce();
     return result;
@@ -95,120 +112,289 @@ Fraction Fraction::operator-(const Fraction &other){
 //  Fraction - float.
 Fraction Fraction::operator-(float number){
     Fraction other= this->convert(number);
-    cout << other << endl;
 
     int num = this->getNum()*other.getDenom() - this->getDenom()*other.getNum();
+    int denom = this->getDenom() * other.getDenom();
+    if(denom==0){
+        Fraction result(0,1);
+        return result;
+    }
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
+}
+
+// Float - fraction.
+Fraction operator-(float number, const Fraction& other){
+    // Convert the float number to fraction obgect.
+    Fraction conv(0,1);
+    if(number != 0.0){
+        int numerator = number*1000;
+        int denominator=1000;
+        conv.setNum(numerator);
+        conv.setDenom(denominator);
+        conv.reduce();
+    }
+
+    // Claculate.
+    int num = conv.getNum()*other.getDenom() - conv.getDenom()*other.getNum();
+    int denom = conv.getDenom() * other.getDenom();
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
+}
+
+//------------------------------ OPERATOR * -------------------------------
+
+// Fraction * fraction.
+Fraction Fraction::operator*(const Fraction &other){
+    int num = this->getNum() * other.getNum();
+    int denom = this->getDenom() * other.getDenom();
+
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
+}
+
+// Fraction * float.
+Fraction Fraction::operator*(float number){
+    if(number==0.0){
+        Fraction result(0,1);
+        return result;
+    }
+
+    Fraction other = convert(number);
+    int num = this->getNum() * other.getNum();
     int denom = this->getDenom() * other.getDenom();
     Fraction result(num,denom);
     result.reduce();
     return result;
 }
-Fraction operator-(float number, const Fraction& other){
-    return Fraction();
-}
 
-//------------------------------ OPERATOR * -------------------------------
-Fraction Fraction::operator*(const Fraction &other){
-    return Fraction();
-}
-
-Fraction Fraction::operator*(float number){
-    return Fraction();
-}
+// Float * fraction.   
 Fraction operator*(float number, const Fraction& other){
-    return Fraction();
+    if(number==0.0){
+        Fraction result(0,1);
+        return result;
+    }
+
+    // Convert the float number to fraction obgect.
+    Fraction conv(0,1);
+    if(number != 0.0){
+        int numerator = number*1000;
+        int denominator=1000;
+        conv.setNum(numerator);
+        conv.setDenom(denominator);
+        conv.reduce();
+    }
+    // Calculate.
+    int num = conv.getNum() * other.getNum();
+    int denom = conv.getDenom() * other.getDenom();
+    Fraction result(num,denom);
+    result.reduce();
+    return result;
 }
 
 //------------------------------ OPERATOR / -------------------------------
+
+// Fraction / fraction.
 Fraction Fraction::operator/(const Fraction &other){
-    return Fraction();
+    Fraction opposite(other.getDenom(), other.getNum());
+    
+    Fraction result = *this * opposite; 
+    result.reduce();
+    return result;
 }
+
+// Fraction / float.
 Fraction Fraction::operator/(float number){
-    return Fraction();
+    Fraction opposite = convert(number);
+    int num = opposite.getNum();
+    int denom = opposite.getDenom();
+    // Swap bwtween up & down.
+    opposite.setNum(denom);
+    opposite.setDenom(num);
+
+    // Calculate.
+    Fraction result = *this * opposite;
+    result.reduce();
+    return result;
 }
+
+// Float / fraction.
 Fraction operator/(float number, const Fraction& other){
-    return Fraction();
+    // Convert the float number to fraction obgect.
+    Fraction conv(0,1);
+    if(number != 0.0){
+        int numerator = number*1000;
+        int denominator=1000;
+        conv.setNum(numerator);
+        conv.setDenom(denominator);
+        conv.reduce();
+    }
+    // Initialize the opposite fraction.
+    Fraction opposite(other.getDenom(),other.getNum());
+
+    // Calculate.
+    Fraction result = conv*opposite;
+    result.reduce();
+    return result;
 }
 
 
 //------------------------------ OPERATOR "--" -------------------------------
+//Postfix decrecment.(x--)
 Fraction Fraction::operator--(int){
-    return Fraction();
+    Fraction copy = *this;
+    this->numerator -= this->denominator;
+    this->reduce();
+    return copy;
 }
-Fraction Fraction::operator--(){
-    return Fraction();
+//Pretfix decrecment.(--x)
+Fraction& Fraction::operator--(){
+    this->numerator -= this->denominator;
+    return *this;
 }
 
-//------------------------------ OPERATOR ++ -------------------------------
-//Postfix increcment.
+//------------------------------ OPERATOR ++ ---------------------------------
+//Postfix increcment.(x++)
 Fraction Fraction::operator++(int){
     Fraction copy = *this;
     this->numerator+=this->denominator;
+    this->reduce();
     return copy;
     
 }
-//Pretfix increcment.
-Fraction Fraction::operator++(){
+//Pretfix increcment.(++x)
+Fraction& Fraction::operator++(){
     this->numerator+=this->denominator;
     return *this;
 }
 
-//------------------------------ OPERATOR < -------------------------------
+//------------------------------ OPERATOR < ----------------------------------
+// Fraction < fraction.
 bool Fraction::operator<(const Fraction &other){
-    return false;
+    // Converting both fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return lvalue < rvalue;
 }
+// Fraction < float.
 bool Fraction::operator<(float number){
-    return false;
+    // Converting fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    return lvalue < number;
 }
+
+// Float < fraction.
 bool operator<(float number, const Fraction& other){
-    return false;
+    // Converting fraction to float.
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return number < rvalue;
 }
 
 //------------------------------ OPERATOR > -------------------------------
+// Fraction > fraction.
 bool Fraction::operator>(const Fraction &other){
-    return false;
+    // Converting both fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return lvalue > rvalue;
 }
+
+// Fraction < float.
 bool Fraction::operator>(float number){
-    return false;
+    // Converting fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    return lvalue > number;
 }
+
+// Float > fraction.
 bool operator>(float number, const Fraction& other){
-    return false;
+    // Converting fraction to float.
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return number > rvalue;
 }
 
 
 //------------------------------ OPERATOR <= -------------------------------
+// Fraction <= fraction.
 bool Fraction::operator<=(const Fraction &other){
-    return false;
+    // Converting both fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return lvalue <= rvalue;
 }
+
+// Fraction <= float.
 bool Fraction::operator<=(float number){
-    return false;
+    // Converting fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    return lvalue <= number;
 }
+
+// Float <= fraction.
 bool operator<=(float number, const Fraction& other){
-    return false;
+    // Converting fraction to float.
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return number <= rvalue;
 }
 
 
 //------------------------------ OPERATOR >= -------------------------------
+// Fraction >= fraction.
 bool Fraction::operator>=(const Fraction &other){
-    return false;
+    // Converting both fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return lvalue >= rvalue;
 }
+
+// Fraction >= float.
 bool Fraction::operator>=(float number){
-    return false;
+    // Converting fraction to float.
+    float lvalue = (this->getNum()/this->getDenom())*1000;
+    return lvalue >= number;
 }
+
+// Float >= fraction.
 bool operator>=(float number, const Fraction& other){
-    return false;
+    // Converting fraction to float.
+    float rvalue = (other.getNum()/other.getDenom())*1000;
+    return number >= rvalue;
 }
 
 
 //------------------------------ OPERATOR == -------------------------------
-bool Fraction::operator==(const Fraction &other) const{
-    return ((this->numerator == other.numerator)&& (this->denominator == other.denominator));
+// Fraction == fraction
+bool Fraction::operator==(const Fraction &other)const{
+    Fraction temp(other.getNum(),other.getDenom());
+    temp.reduce();
+    return ((this->getNum() == temp.getNum()) && (this->getDenom() == temp.getDenom()));
 }
+
+// Fraction == float.
 bool Fraction::operator==(float number){
-    return false;
+    Fraction conv =this->convert(number);
+    conv.reduce();
+    this->reduce();
+    return ((this->numerator == conv.getNum()) && (this->denominator == conv.getDenom()));
 }
+
+// Float == fraction.
 bool operator==(float number, const Fraction& other){
-    return false;
+    // Convert the float number to fraction obgect.
+    Fraction conv(0,1);
+    if(number != 0.0){
+        int numerator = number*1000;
+        int denominator=1000;
+        conv.setNum(numerator);
+        conv.setDenom(denominator);
+        conv.reduce();
+    }
+    Fraction temp(other.getNum(),other.getDenom());
+    temp.reduce();
+    return ((conv.getNum() == other.getNum()) && (conv.getDenom()==other.getDenom()));
 }
 
 
@@ -227,6 +413,9 @@ void Fraction::setNum(int num){
     this->numerator = num;
 }
 void Fraction::setDenom(int denom){
+    if (denom == 0){
+        throw invalid_argument(" Denominator cannot be zero.");
+    }
     this->denominator=denom;
 }
 
