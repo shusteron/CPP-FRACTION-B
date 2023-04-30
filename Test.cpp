@@ -46,8 +46,8 @@ TEST_CASE("* operator"){
      x(5,6), y(0,1) ,w(-1,2), z(-1,4), k(1,4);
 
     CHECK((a*c)==x);
-    // CHECK((0.0*a)==y);
-    // CHECK((a*0.0)==y);
+    CHECK((0.0*a)==y);
+    CHECK((a*0.0)==y);
     CHECK((a*2.0)==1.0);
     CHECK((a*w)==z);
     CHECK((w*w)==k);
