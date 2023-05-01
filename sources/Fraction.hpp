@@ -63,7 +63,7 @@ class Fraction{
         bool operator==(float number);
         friend bool operator==(float number, const Fraction& other);
 //------------------------------ OPERATOR << -------------------------------
-        friend ostream& operator<< (ostream& output, const Fraction& c);
+        friend ostream& operator<< (ostream& output, const Fraction& fraction);
 //------------------------------ OPERATOR >> -------------------------------
         friend istream& operator>>(istream& input, Fraction& fraction);
 //------------------------------ GETTERS & SETTERS -------------------------------
